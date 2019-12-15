@@ -1,0 +1,17 @@
+.content= course.content
+.tags.badges
+  each tag in course.tags
+    span.badge.badge-phill.badge-secondary= tag
+    | 
+.row
+  .col-sm
+    .numbers.
+      #[span.number.num-likes= course.numLikes] likes,
+      #[span.number.num-answers= course.numAnswers] answers,
+      #[span.number.num-reads= course.numReads] reads
+  .col-sm
+    .author
+      | asked on #{moment(course.createdAt).format('YYYY-MM-DD')}
+      if course.author
+        | 
+        | by #[a(href=`/users/${course.author.id}`)= course.author.name] 

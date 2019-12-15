@@ -1,0 +1,28 @@
+extends ../layout
+
+include ../includes/_paginate
+
+block content
+  .container
+    form.form-inline.search-input-group(action='/courses', method='GET')
+      i.fa.fa-search
+      input.form-control.mr-sm-2(type='text', name='term', placeholder='Search', aria-label='Search', value=term)
+
+    h1.main-title 
+      | Courses
+      if courses.total > 0
+        .small Total #{courses.total} course(s)
+
+    if courses.total <= 0 
+      .alert.alert-info No courses available yet
+    else
+      .courses
+        each course in courses.docs
+          .course
+            a.title(href=`/courses/${course.id}`)= course.title
+            include _course
+
+      +paginate(courses, '/courses', query)
+
+    hr
+    a.btn.btn-primary(href='/courses/new') Add Course

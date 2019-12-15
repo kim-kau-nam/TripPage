@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+  .container
+    h1.main-title= course.title
+
+    .course.show
+      //- .content= course.content
+      include _course
+
+      .buttons
+        if currentUser
+          button.btn.btn-primary.course-like-btn(data-id=course.id) 
+            span.for-loading #[i.fa.fa-spin.fa-refresh] Loading
+            span #[i.fa.fa-thumbs-up] Like
+          if course.author && course.author.id == currentUser.id
+            | 
+            a.btn.btn-outline-secondary(href=`/courses/${course.id}/edit`) Edit
+            | 
+            a.btn.btn-outline-danger.need-confirm-btn(href=`/courses/${course.id}?_method=delete`) Delete
+      
+    if course.numAnswers > 0
+      hr
+      h3 #{course.numAnswers} Answer(s)
+      .answers.show
+        each answer in answers
+          include _answer
+
+    if currentUser
+      form(action=`/courses/${course.id}/answers`, method='POST')
+        .form-group
+          label(for='answer') Your Answer
+          textarea.form-control(name="content", rows="5")
+        button.btn.btn-primary(type="submit") Post Your Answer
+
+
+  script(src='/javascripts/course_client.js')

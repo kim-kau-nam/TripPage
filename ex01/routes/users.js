@@ -118,4 +118,3 @@ router.post('/', catchErrors(async (req, res, next) => {
 }));
 
 module.exports = router;
-
